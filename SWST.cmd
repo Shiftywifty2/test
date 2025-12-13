@@ -1,5 +1,5 @@
 @ECHO OFF
-mode 1000,1000
+mode 50,40
 
 color 0F
 setlocal enabledelayedexpansion
@@ -406,4 +406,5 @@ goto res
 
 
 :: Hey thats the end of the script!!
+
 
