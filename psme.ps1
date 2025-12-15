@@ -16,7 +16,7 @@ start-sleep -seconds 2
 function Complete {
             write-host "Full process completed!" -ForegroundColor Green 
         write-host "Launching.." -ForegroundColor Green
-        start-process "$PSScriptRoot\GD\GeometryDash.exe"
+        start-process "$env:USERPROFILE\desktop\GD\GeometryDash.exe"
         exit
 }
 
@@ -32,12 +32,12 @@ function Cleanup {
 }
 
 function Unzip {
-    if (Test-path "C:\Temp\GD.zip") {
+    if (Test-path "C:\Temp\GD.zip") {   
         write-host "File existence: True" -ForegroundColor Green
         write-host "Attempting to unzip..." -ForegroundColor Yellow
         start-sleep -seconds 1
         try {
-        Expand-Archive -path "C:\Temp\GD.zip" -DestinationPath "$PSScriptRoot\GD" -Force
+        Expand-Archive -path "C:\Temp\GD.zip" -DestinationPath "$env:USERPROFILE\desktop\GD" -Force
         write-host "Success!" -ForegroundColor Green
         write-host "Cleaning up..." -ForegroundColor Yellow
         Cleanup
