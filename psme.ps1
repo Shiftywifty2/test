@@ -23,7 +23,7 @@ function Complete {
 function Cleanup { 
       try {
         Remove-item "C:\Temp\GD.Zip" -Force
-        complete
+        Complete
         } catch {
             write-host "Failed to clean up file!" -ForegroundColor Red
             start-sleep -seconds 3
@@ -82,3 +82,4 @@ function CheckElevation {
 }
 
 CheckElevation
+
