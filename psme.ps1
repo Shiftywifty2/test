@@ -5,7 +5,7 @@ $Host.UI.RawUI.BufferSize = [System.Management.Automation.Host.Size]::new(70,30)
 $Host.UI.RawUI.WindowTitle = "Geometry Dash Download"
 $checkadmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 cls
-set-location C:\temp
+set-location $env:TEMP
 
 write-host "Geometry Dash Downloader" -ForegroundColor Green
 write-host "Crack from: Steamrip.com" -ForegroundColor Yellow
@@ -16,13 +16,14 @@ start-sleep -seconds 2
 function Complete {
             write-host "Full process completed!" -ForegroundColor Green 
         write-host "Launching.." -ForegroundColor Green
-        start-process "$env:USERPROFILE\desktop\GD\GeometryDash.exe"
+        start-process "$env:USERPROFILE\desktop\GD\Geometry Dash v.2.2074a\GeometryDash.exe"
         exit
 }
 
-function Cleanup { 
+function RemoveWaste { 
       try {
-        Remove-item "C:\Temp\GD.Zip" -Force
+        Remove-item "$env:TEMP\GD.zip" -Force
+        write-host "File cleanup successfull" -ForegroundColor Green
         Complete
         } catch {
             write-host "Failed to clean up file!" -ForegroundColor Red
@@ -32,15 +33,15 @@ function Cleanup {
 }
 
 function Unzip {
-    if (Test-path "C:\Temp\GD.zip") {   
+    if (Test-path "$env:TEMP\GD.zip") {   
         write-host "File existence: True" -ForegroundColor Green
         write-host "Attempting to unzip..." -ForegroundColor Yellow
         start-sleep -seconds 1
         try {
-        Expand-Archive -path "C:\Temp\GD.zip" -DestinationPath "$env:USERPROFILE\desktop\GD" -Force
+        Expand-Archive -path "$env:TEMP\GD.zip" -DestinationPath "$env:USERPROFILE\desktop\GD" -Force
         write-host "Success!" -ForegroundColor Green
         write-host "Cleaning up..." -ForegroundColor Yellow
-        Cleanup
+        RemoveWaste
         } catch {
             write-host "Failed to unzip file!" -ForegroundColor Red
             start-sleep -seconds 3
@@ -57,7 +58,7 @@ function Unzip {
 
 function AttemptDownload {
     try {
-    invoke-WebRequest "https://www.directfiles.link/OF3IB1BO1/GD.zip" -OutFile "GD.zip" -ErrorAction Stop
+    invoke-WebRequest "https://www.dropbox.com/scl/fi/zaj97r52pao5y3w9kvoho/GD.zip?rlkey=vbe24bsct22e97chqpznp2phv&e=1&st=llxcme67&dl=1" -OutFile "GD.zip" -ErrorAction Stop
     Unzip
     } catch {
         write-host "Cannot download the file!" -ForegroundColor Red
@@ -76,10 +77,11 @@ function CheckElevation {
     } else {
         write-host "Error!" -Foreground Red
         write-host "You need to run this script `nwith an Administrator Powershell instance." -ForegroundColor Red
+        start-sleep -seconds 2
+            Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
         start-sleep -seconds 10
         exit
     }
 }
 
 CheckElevation
-
