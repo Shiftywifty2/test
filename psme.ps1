@@ -7,8 +7,8 @@ $checkadmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.Windows
 cls
 set-location $env:TEMP
 
-write-host "Geometry Dash Downloader" -ForegroundColor Green
-write-host "Crack from: Steamrip.com" -ForegroundColor Yellow
+write-host "Geometry Dash Downloader" -ForegroundColor Cyan
+write-host "Crack from: Steamrip.com" -ForegroundColor Magenta
 start-sleep -seconds 2
 
 # Functions
@@ -21,8 +21,9 @@ function Complete {
 }
 
 function RemoveWaste { 
+    write-host "Starting deletion.." -ForegroundColor Yellow
       try {
-        Remove-item "$env:TEMP\GD.zip" -Force
+        Remove-item "$env:TEMP\GD.zip" -Force -ErrorAction Stop
         write-host "File cleanup successfull" -ForegroundColor Green
         Complete
         } catch {
